@@ -28,25 +28,4 @@ public class Conta {
             JOptionPane.showMessageDialog(null, "Erro ao emitir nota fiscal: " + e.getMessage());
         }
     }
-
-    public void DesbloqGerencia(Pedido pedido) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Pedido: ").append(pedido.getCodPedido()).append("\n\n");
-
-        List<Produto> itens = pedido.getItens();
-        for (Produto item : itens) {
-            sb.append(item.getNomeProduto()).append(" - ").append(item.getQtdProduto()).append(" unidade(s)\n");
-        }
-
-        sb.append("\nTotal: R$ ").append(pedido.getTotalPedido()).append("\n");
-        sb.append("Total: Desbloqueio da Gerência\n");
-
-        String nomeArquivo = "NotaFiscal_Mesa" + pedido.getCodPedido() + ".txt";
-        try (FileWriter writer = new FileWriter(nomeArquivo)) {
-            writer.write(sb.toString());
-            JOptionPane.showMessageDialog(null, "Bloco de notas criado com sucesso!");
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao criar o bloco de notas: " + e.getMessage());
-        }
-    }
 }

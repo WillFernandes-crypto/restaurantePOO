@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.GridLayout;
 import java.util.*;
 
-public class PedidoCrud implements IPedido{
+public class PedidoCrud implements IPedido {
     private Map<Integer, List<Pedido>> pedidos; // Map to store the orders
     private List<Produto> produtos;
 
@@ -164,9 +164,9 @@ public class PedidoCrud implements IPedido{
                 if (acesso()) {
                     Conta conta = new Conta();
                     conta.emitirNotaFiscal(pedido);
-                    pedidos.remove(codPedido); // Excluir o pedido da lista após o desbloqueio da
-                    // gerência
+                    pedidos.remove(codPedido);
                     JOptionPane.showMessageDialog(null, "Pedido finalizado!");
+                    return;
                 } else {
                     JOptionPane.showMessageDialog(null, "Acesso negado. Pedido não foi finalizado!");
                 }
@@ -198,11 +198,8 @@ public class PedidoCrud implements IPedido{
 
         sb.append("Total: R$ ");
 
-        if (acesso()) {
-            sb.append("Desbloqueio da Gerência");
-        } else {
-            sb.append(totalPedido);
-        }
+        sb.append(totalPedido);
+
         sb.append("\n");
 
         JOptionPane.showMessageDialog(null, sb.toString());
@@ -225,21 +222,8 @@ public class PedidoCrud implements IPedido{
             panel.add(button);
         }
 
-        // Add "Manager Unlock" button
-        JButton desbloqueioGerenciaButton = new JButton("Desbloqueio da Gerência");
-        desbloqueioGerenciaButton.addActionListener(e -> desbloqueioGerencia());
-        panel.add(desbloqueioGerenciaButton);
-
         JScrollPane scrollPane = new JScrollPane(panel);
         JOptionPane.showMessageDialog(null, scrollPane);
-    }
-
-    private void desbloqueioGerencia() {
-        if (acesso()) {
-            JOptionPane.showMessageDialog(null, "Acesso autorizado! Pedido liberado!");
-        } else {
-            JOptionPane.showMessageDialog(null, "Acesso não permitido!");
-        }
     }
 
     private boolean acesso() {
