@@ -4,7 +4,7 @@ import dados.*;
 import java.util.*;
 import javax.swing.*;
 
-public class ProdutoCrud {
+public class ProdutoCrud implements IProduto{
 
     private List<Produto> prod;
     private CategoriaCrud categoriaCrud;
@@ -30,6 +30,7 @@ public class ProdutoCrud {
         return prod.toArray(new Produto[prod.size()]);
     }
 
+    @Override
     public void cadProduto(int codProduto, String nomeProduto, double precoProduto, int qtdProduto) {
         List<Categoria> categorias = categoriaCrud.getCategorias();
         if (categorias.isEmpty()) {
@@ -75,6 +76,7 @@ public class ProdutoCrud {
         }
     }
 
+    @Override
     public boolean buscaProd(int codProduto, int codCategoria) {
         for (Produto produto : prod) {
             if (produto.getCodProduto() == codProduto && produto.getCodCategoria() == codCategoria) {
@@ -84,6 +86,7 @@ public class ProdutoCrud {
         return false;
     }
 
+    @Override
     public void listaProd() {
         StringBuilder lista = new StringBuilder("Lista de Produtos:\n");
         for (Produto produto : prod) {
@@ -108,6 +111,7 @@ public class ProdutoCrud {
         return "Categoria não encontrada";
     }
 
+    @Override
     public void delProd(int codProduto) {
         Produto delProd = null;
         for (Produto produto : prod) {
@@ -124,6 +128,7 @@ public class ProdutoCrud {
         }
     }
 
+    @Override
     public void alteraProd(int codProduto) {
         Produto prodFound = null;
         for (Produto produto : prod) {
