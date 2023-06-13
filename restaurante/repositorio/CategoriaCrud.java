@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.GridLayout;
 import java.util.*;
 
-public class CategoriaCrud {
+public class CategoriaCrud implements ICategoria {
 
     private List<Categoria> categorias;
     private JPanel categoriaPanel;
@@ -15,6 +15,7 @@ public class CategoriaCrud {
         categoriaPanel = new JPanel(new GridLayout(0, 1));
     }
 
+    @Override
     public void cadastrarCategoria(int codCategoria, String tipoCategoria) {
         if (verificarExistencia(codCategoria, tipoCategoria)) {
             JOptionPane.showMessageDialog(null, "Já existe uma categoria com o mesmo código ou nome!");
@@ -25,6 +26,7 @@ public class CategoriaCrud {
         }
     }
 
+    @Override
     public void listarCategorias() {
         if (categorias.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Nenhuma categoria cadastrada!");
@@ -33,6 +35,7 @@ public class CategoriaCrud {
         }
     }
 
+    @Override
     public void alteraCateg(int codCategoria) {
 
         Iterator<Categoria> iterator = categorias.iterator();
@@ -90,6 +93,7 @@ public class CategoriaCrud {
         }
     }
 
+    @Override
     public void excluiCategoria(int codCategoria) {
         Categoria categoria = buscarCategoria(codCategoria);
         if (categoria != null) {
@@ -101,7 +105,8 @@ public class CategoriaCrud {
         }
     }
 
-    private void atualizarListaCategorias() {
+    @Override
+    public void atualizarListaCategorias() {
         categoriaPanel.removeAll();
         for (Categoria categoria : categorias) {
             JLabel labelCategoria = new JLabel(
@@ -121,7 +126,8 @@ public class CategoriaCrud {
         return false;
     }
 
-    private Categoria buscarCategoria(int codCategoria) {
+    @Override
+    public Categoria buscarCategoria(int codCategoria) {
         for (Categoria categoria : categorias) {
             if (categoria.getCodCategoria() == codCategoria) {
                 return categoria;

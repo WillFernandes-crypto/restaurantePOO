@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-public class UsuarioCrud {
+public class UsuarioCrud implements IUsuario{
 
     private List<Usuario> user;
 
@@ -16,6 +16,7 @@ public class UsuarioCrud {
         user = new ArrayList<>();
     }
 
+    @Override
     public boolean acesso() {
         boolean isAdmin = false;
         boolean isGerente = false;
@@ -83,6 +84,7 @@ public class UsuarioCrud {
         }
     }
 
+    @Override
     public void cadUsuario(String nome, String login, String senha, boolean userGerente, boolean userGarcom) {
         if (userGerente) {
             Gerente novoGerente = new Gerente(nome, login, senha);
@@ -93,6 +95,7 @@ public class UsuarioCrud {
         }
     }
 
+    @Override
     public boolean verificaCred(String login, String senha) {
         for (Usuario usuario : user) {
             if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senha)) {
@@ -102,6 +105,7 @@ public class UsuarioCrud {
         return false;
     }
 
+    @Override
     public void listaUser() {
         StringBuilder lista = new StringBuilder("Lista de Usuários:\n");
         for (Usuario usuario : user) {
@@ -111,6 +115,7 @@ public class UsuarioCrud {
         JOptionPane.showMessageDialog(null, lista.toString());
     }
 
+    @Override
     public void delUser(String login) {
         Usuario delUser = null;
         for (Usuario usuario : user) {
@@ -127,6 +132,7 @@ public class UsuarioCrud {
         }
     }
 
+    @Override
     public void alterarCredenciais(String login) {
         Iterator<Usuario> iterator = user.iterator();
         Usuario usuarioEncontrado = null;

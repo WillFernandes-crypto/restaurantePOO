@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.GridLayout;
 import java.util.*;
 
-public class PedidoCrud {
+public class PedidoCrud implements IPedido{
     private Map<Integer, List<Pedido>> pedidos; // Map to store the orders
     private List<Produto> produtos;
 
@@ -15,6 +15,7 @@ public class PedidoCrud {
         produtos = produtoCrud.getProdutos();
     }
 
+    @Override
     public void anotarPedido(int codPedido) {
         // Check if there are registered products before taking the order
         if (produtos.isEmpty()) {
@@ -144,6 +145,7 @@ public class PedidoCrud {
         JOptionPane.showMessageDialog(null, "Pedido realizado!");
     }
 
+    @Override
     public void finalizarPedido(int codPedido, double valorPago) {
         List<Pedido> pedidosList = pedidos.get(codPedido);
         if (pedidosList == null) {
@@ -174,6 +176,7 @@ public class PedidoCrud {
         }
     }
 
+    @Override
     public void listarPedido(int codPedido) {
         List<Pedido> pedidosList = pedidos.get(codPedido);
         if (pedidosList == null) {
@@ -205,6 +208,7 @@ public class PedidoCrud {
         JOptionPane.showMessageDialog(null, sb.toString());
     }
 
+    @Override
     public void listarTodosPedidos() {
         if (pedidos.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Nenhum pedido registrado!");
