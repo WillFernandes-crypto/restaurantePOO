@@ -70,7 +70,6 @@ public class UsuarioCrud {
             }
 
             if (isAdmin || isGerente) {
-                JOptionPane.showMessageDialog(null, "Credenciais corretas. Acesso permitido!");
                 dialog.dispose(); // Fechar a tela de acesso
                 return true; // Acesso concedido
             } else {

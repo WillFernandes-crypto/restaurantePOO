@@ -191,36 +191,58 @@ public class Main {
 
                                 switch (opProduto) {
                                     case 0:
-                                        String codP = JOptionPane.showInputDialog("Código do produto: ");
-                                        String nomeProduto = JOptionPane.showInputDialog("Nome do produto: ");
-                                        String priceP = JOptionPane.showInputDialog("Preço do produto: ");
-                                        String qtdProd = JOptionPane.showInputDialog("Quantidade disponivel: ");
+                                        JPanel panel = new JPanel(new GridLayout(0, 2));
+                                        panel.add(new JLabel("Código do Produto:"));
+                                        JTextField codPField = new JTextField();
+                                        panel.add(codPField);
+                                        panel.add(new JLabel("Nome do Produto:"));
+                                        JTextField nomeProdutoField = new JTextField();
+                                        panel.add(nomeProdutoField);
+                                        panel.add(new JLabel("Preço do Produto:"));
+                                        JTextField pricePField = new JTextField();
+                                        panel.add(pricePField);
+                                        panel.add(new JLabel("Quantidade do Produto:"));
+                                        JTextField qtdProdField = new JTextField();
+                                        panel.add(qtdProdField);
 
-                                        try { // Tratamento para conversão de caracteres inválidos
-                                            int codProduto = Integer.parseInt(codP);
-                                            double precoProduto = Double.parseDouble(priceP.replace(",", "."));
-                                            int qtdProduto = Integer.parseInt(qtdProd);
+                                        int result = JOptionPane.showConfirmDialog(null, panel,
+                                                "Cadastrar novo produto",
+                                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-                                            if (codP != null && !codP.isEmpty() &&
-                                                    nomeProduto != null && !nomeProduto.isEmpty() &&
-                                                    priceP != null && !priceP.isEmpty() &&
-                                                    qtdProd != null && !qtdProd.isEmpty()) {
+                                        if (result == JOptionPane.OK_OPTION) {
+                                            String codP = codPField.getText();
+                                            String nomeProduto = nomeProdutoField.getText();
+                                            String priceP = pricePField.getText();
+                                            String qtdProd = qtdProdField.getText();
 
-                                                prod.cadProduto(codProduto, nomeProduto, precoProduto,
-                                                        qtdProduto);
-                                                JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
-                                            } else {
+                                            try { // Tratamento para conversão de caracteres inválidos
+                                                int codProduto = Integer.parseInt(codP);
+                                                double precoProduto = Double.parseDouble(priceP.replace(",", "."));
+                                                int qtdProduto = Integer.parseInt(qtdProd);
+
+                                                if (codP != null && !codP.isEmpty() &&
+                                                        nomeProduto != null && !nomeProduto.isEmpty() &&
+                                                        priceP != null && !priceP.isEmpty() &&
+                                                        qtdProd != null && !qtdProd.isEmpty()) {
+
+                                                    prod.cadProduto(codProduto, nomeProduto, precoProduto,
+                                                            qtdProduto);
+                                                    JOptionPane.showMessageDialog(null,
+                                                            "Produto cadastrado com sucesso!");
+                                                } else {
+                                                    JOptionPane.showMessageDialog(null,
+                                                            "Dados inválidos! Preencha todos os campos.");
+                                                }
+                                            } catch (NumberFormatException e) {
                                                 JOptionPane.showMessageDialog(null,
-                                                        "Dados inválidos! Preencha todos os campos.");
+                                                        "Erro na conversão de tipos. Certifique-se de inserir valores numéricos válidos!");
                                             }
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Erro na conversão de tipos. Certifique-se de inserir valores numéricos válidos.");
+
                                         }
+
                                         break;
 
                                     case 1:
-                                        // Cadastrar produto
                                         String codProd = JOptionPane.showInputDialog("Digite o código do produto:");
                                         int codProduto = Integer.parseInt(codProd);
                                         String nomeProd = JOptionPane.showInputDialog("Digite o nome do produto:");
@@ -237,7 +259,7 @@ public class Main {
                                         break;
 
                                     case 3:
-                                        codP = JOptionPane.showInputDialog("Código do produto a ser removido: ");
+                                        String codP = JOptionPane.showInputDialog("Código do produto a ser removido: ");
                                         codProduto = Integer.parseInt(codP);
                                         if (codP != null && !codP.isEmpty()) {
                                             prod.delProd(codProduto);
@@ -293,14 +315,44 @@ public class Main {
                                         opcoesCategoria[0]);
                                 switch (opCategoria) {
                                     case 0:
-                                        String codCategoria = JOptionPane.showInputDialog("Código da categoria:");
-                                        String tipoCategoria = JOptionPane.showInputDialog("Tipo da categoria:");
+                                        JPanel panel = new JPanel(new GridLayout(0, 2));
+                                        panel.add(new JLabel("Código da Categoria:"));
+                                        JTextField codPField = new JTextField();
+                                        panel.add(codPField);
+                                        panel.add(new JLabel("Tipo da Categoria:"));
+                                        JTextField nomeProdutoField = new JTextField();
+                                        panel.add(nomeProdutoField);
 
-                                        try {
-                                            int codCateg = Integer.parseInt(codCategoria);
-                                            categoria.cadastrarCategoria(codCateg, tipoCategoria);
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null, "Código da categoria inválido!");
+                                        int result = JOptionPane.showConfirmDialog(null, panel,
+                                                "Cadastrar nova categoria",
+                                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+                                        if (result == JOptionPane.OK_OPTION) {
+                                            String codCategoria = codPField.getText();
+                                            String tipoCategoria = nomeProdutoField.getText();
+
+                                            try { // Tratamento para conversão de caracteres inválidos
+                                                int codCateg = Integer.parseInt(codCategoria);
+
+                                                if (categoria.verificarExistencia(codCateg, tipoCategoria)) {
+                                                    JOptionPane.showMessageDialog(null,
+                                                            "Já existe uma categoria com o mesmo código ou nome!");
+                                                } else if (tipoCategoria == null || tipoCategoria.isEmpty()
+                                                        && codCateg <= 0) {
+                                                    JOptionPane.showMessageDialog(null,
+                                                            "Dados inválidos! Preencha todos os campos.");
+
+                                                } else {
+                                                    categoria.cadastrarCategoria(codCateg, tipoCategoria);
+                                                    JOptionPane.showMessageDialog(null,
+                                                            "Categoria cadastrada com sucesso!");
+
+                                                }
+
+                                            } catch (NumberFormatException e) {
+                                                JOptionPane.showMessageDialog(null,
+                                                        "Erro na conversão de tipos. Certifique-se de inserir valores numéricos válidos!");
+                                            }
                                         }
                                         break;
 

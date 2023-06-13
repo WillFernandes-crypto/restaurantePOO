@@ -22,7 +22,6 @@ public class CategoriaCrud {
             Categoria novaCategoria = new Categoria(codCategoria, tipoCategoria);
             categorias.add(novaCategoria);
             atualizarListaCategorias();
-            JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso!");
         }
     }
 
@@ -35,23 +34,56 @@ public class CategoriaCrud {
     }
 
     public void alteraCateg(int codCategoria) {
-        Categoria categoria = buscarCategoria(codCategoria);
-        if (categoria != null) {
-            String novoCodCategoria = JOptionPane.showInputDialog("Digite o novo codigo da categoria:");
-            String novoTipoCategoria = JOptionPane.showInputDialog("Digite o novo tipo da categoria:");
-            int codCateg = Integer.parseInt(novoCodCategoria);
-            if (novoTipoCategoria != null && !novoTipoCategoria.isEmpty() && novoCodCategoria != null
-                    && !novoCodCategoria.isEmpty()) {
-                if (verificarExistencia(codCateg, novoTipoCategoria)) {
+
+        Iterator<Categoria> iterator = categorias.iterator();
+        Categoria categEncontrada = null;
+        while (iterator.hasNext()) {
+            Categoria categoria = iterator.next();
+            if (Integer.valueOf(categoria.getCodCategoria()).equals(codCategoria)) {
+                categEncontrada = categoria;
+                break;
+            }
+        }
+
+        if (categEncontrada != null) {
+
+            JPanel panel = new JPanel(new GridLayout(0, 2));
+            panel.add(new JLabel("Novo codigo da categoria:"));
+            JTextField codCategField = new JTextField(categEncontrada.getCodCategoria());
+            panel.add(codCategField);
+            panel.add(new JLabel("Novo tipo da categoria:"));
+            JTextField tipoCategField = new JTextField(categEncontrada.getTipoCategoria());
+            panel.add(tipoCategField);
+
+            int result = JOptionPane.showConfirmDialog(null, panel, "Alterar credenciais",
+                    JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                String novoCodCateg = codCategField.getText();
+                String novoTipoCateg = tipoCategField.getText();
+                int newCodCateg = Integer.parseInt(novoCodCateg);
+
+                if (novoCodCateg != null && !novoCodCateg.isEmpty()) {
+                    categEncontrada.setCodCategoria(newCodCateg);
+                } else {
+                    JOptionPane.showMessageDialog(null, "O codigo da categoria não pode ser vazio.");
+                    return;
+                }
+
+                if (novoTipoCateg != null && !novoTipoCateg.isEmpty()) {
+                    categEncontrada.setTipoCategoria(novoTipoCateg);
+                } else {
+                    JOptionPane.showMessageDialog(null, "O tipo de categoria não pode ser vazio.");
+                    return;
+                }
+
+                if (verificarExistencia(newCodCateg, novoTipoCateg)) {
                     JOptionPane.showMessageDialog(null, "Já existe uma categoria com o mesmo código ou nome!");
                 } else {
-                    categoria.setCodCategoria(codCateg);
-                    categoria.setTipoCategoria(novoTipoCategoria);
+                    categEncontrada.setCodCategoria(newCodCateg);
+                    categEncontrada.setTipoCategoria(novoTipoCateg);
                     atualizarListaCategorias();
                     JOptionPane.showMessageDialog(null, "Categoria atualizada com sucesso!");
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Tipo de categoria inválido!");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Categoria não encontrada!");
@@ -79,7 +111,7 @@ public class CategoriaCrud {
         categoriaPanel.revalidate();
     }
 
-    private boolean verificarExistencia(int codCategoria, String tipoCategoria) {
+    public boolean verificarExistencia(int codCategoria, String tipoCategoria) {
         for (Categoria categoria : categorias) {
             if (categoria.getCodCategoria() == codCategoria
                     || categoria.getTipoCategoria().equalsIgnoreCase(tipoCategoria)) {

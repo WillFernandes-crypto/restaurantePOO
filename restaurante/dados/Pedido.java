@@ -5,13 +5,11 @@ import java.util.*;
 public class Pedido {
     private int codPedido;
     private List<Produto> itens;
-    private boolean ativo;
     private double valorPago;
 
     public Pedido(int codPedido) {
         this.codPedido = codPedido;
         this.itens = new ArrayList<>();
-        this.ativo = true;
     }
 
     public int getCodPedido() {
@@ -28,14 +26,6 @@ public class Pedido {
 
     public void setItens(List<Produto> itens) {
         this.itens = itens;
-    }
-
-    public boolean isAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
     }
 
     public double getTotalPedido() {
